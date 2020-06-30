@@ -2,7 +2,6 @@ package censusanalyser;
 
 import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.service.CensusAnalyser;
-import censusanalyser.service.StatesAnalyser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -60,7 +59,7 @@ public class CensusAnalyserTest {
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndiaCensusData(WRONG_DELIMITER);
         } catch (CensusAnalyserException e) {
-            Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_PROBLEM, e.type);
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_HEADER_PROBLEM, e.type);
         }
     }
 
@@ -72,16 +71,16 @@ public class CensusAnalyserTest {
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndiaCensusData(WRONG_DELIMITER);
         } catch (CensusAnalyserException e) {
-            Assert.assertEquals(CensusAnalyserException.ExceptionType.HEADER_PROBLEM, e.type);
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_HEADER_PROBLEM, e.type);
         }
     }
 
     @Test
-    public void givenIndianStateCSVFileReturnsCorrectRecords() {
+    public void givenIndianStateCSVFile_Returns_CorrectRecords() {
         try {
-            StatesAnalyser statesAnalyser = new StatesAnalyser();
-            int numOfRecords = statesAnalyser.loadIndiaStateCodeData(INDIA_STATE_CODE_CSV_FILE_PATH);
-            Assert.assertEquals(37, numOfRecords);
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            int stateCode = censusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_CSV_FILE_PATH);
+            Assert.assertEquals(37,stateCode);
         } catch (CensusAnalyserException e) {
         }
     }
@@ -89,10 +88,10 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndiaStateData_WithWrongFile_ShouldThrowException() {
         try {
-            StatesAnalyser statesAnalyser = new StatesAnalyser();
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            statesAnalyser.loadIndiaStateCodeData(INDIA_STATE_CODE_WRONG_CSV_FILE_PATH);
+            censusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_WRONG_CSV_FILE_PATH);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
@@ -101,10 +100,10 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndiaStateData_WithWrongFileType_ShouldThrowException() {
         try {
-            StatesAnalyser statesAnalyser = new StatesAnalyser();
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            statesAnalyser.loadIndiaStateCodeData(INDIA_STATECODE_WRONG_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaStateCode(INDIA_STATECODE_WRONG_CSV_FILE_TYPE);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
@@ -113,24 +112,24 @@ public class CensusAnalyserTest {
     @Test
     public void givenIndiaStateData_WithWrongDelimiter_ShouldThrowException() {
         try {
-            StatesAnalyser statesAnalyser = new StatesAnalyser();
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            statesAnalyser.loadIndiaStateCodeData(INDIA_STATE_CODE_WRONG_DELIMITER);
+            censusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_WRONG_DELIMITER);
         } catch (CensusAnalyserException e) {
-            Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_PROBLEM, e.type);
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_HEADER_PROBLEM, e.type);
         }
     }
 
     @Test
     public void givenIndiaStateData_WithWrongHeader_ShouldThrowException() {
         try {
-            StatesAnalyser statesAnalyser = new StatesAnalyser();
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            statesAnalyser.loadIndiaStateCodeData(INDIA_STATE_CODE_WRONG_DELIMITER);
+            censusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_WRONG_DELIMITER);
         } catch (CensusAnalyserException e) {
-            Assert.assertEquals(CensusAnalyserException.ExceptionType.HEADER_PROBLEM, e.type);
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_HEADER_PROBLEM, e.type);
         }
     }
 }
