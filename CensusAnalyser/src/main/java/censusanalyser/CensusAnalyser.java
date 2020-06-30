@@ -2,7 +2,9 @@ package censusanalyser;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.opencsv.exceptions.CsvRuntimeException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,7 +16,7 @@ import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
-    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
+    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException, RuntimeException {
         CsvToBean<IndiaCensusCSV> csvToBean = null;
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
@@ -32,11 +34,11 @@ public class CensusAnalyser {
         } catch (IllegalStateException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
-        }catch (RuntimeException e) {
+        }catch (CsvRuntimeException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.DELIMITER_PROBLEM);
         }
-        Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();;
+        Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
         Iterable<IndiaCensusCSV> csviterable = () -> censusCSVIterator;
         int namOfEateries = (int) StreamSupport.stream(csviterable.spliterator(), false).count();
         return namOfEateries;
