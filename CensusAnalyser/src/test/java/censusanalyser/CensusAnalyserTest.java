@@ -1,5 +1,8 @@
 package censusanalyser;
 
+import censusanalyser.exception.CensusAnalyserException;
+import censusanalyser.service.CensusAnalyser;
+import censusanalyser.service.StatesAnalyser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

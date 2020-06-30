@@ -1,4 +1,4 @@
-package censusanalyser;
+package censusanalyser.models;
 import com.opencsv.bean.CsvBindByName;
 
 public class IndiaStateCodeCSV {
