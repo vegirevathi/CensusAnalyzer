@@ -1,5 +1,8 @@
 package censusanalyser.service;
 
+import CSVBuilder.CSVBuilderException;
+import CSVBuilder.CSVBuilderFactory;
+import CSVBuilder.ICSVBuilder;
 import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.models.IndiaStateCode;
 import censusanalyser.models.StateCensusCSV;
@@ -23,6 +26,8 @@ public class CensusAnalyser {
         } catch (RuntimeException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.DELIMITER_HEADER_PROBLEM);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
     }
 
@@ -37,6 +42,8 @@ public class CensusAnalyser {
         } catch (RuntimeException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.DELIMITER_HEADER_PROBLEM);
+        } catch (CSVBuilderException e) {
+            throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
     }
 
