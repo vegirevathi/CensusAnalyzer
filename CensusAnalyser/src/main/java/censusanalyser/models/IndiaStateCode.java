@@ -7,7 +7,7 @@ public class IndiaStateCode {
     public String StateName;
 
     @CsvBindByName(column = "StateCode", required = true)
-    public int StateCode;
+    public String StateCode;
 
     @Override
     public String toString() {
