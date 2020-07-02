@@ -101,6 +101,16 @@ public class CensusAnalyser {
         return sortedPopulationDensity;
     }
 
+    public String getStateWiseSortedCensusDataOnArea() throws CensusAnalyserException {
+        if (censusCSVList == null || censusCSVList.size() == 0){
+            throw  new CensusAnalyserException("No census data found", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<StateCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.areaInSqKm);
+        this.sortDescending(censusCSVComparator, censusCSVList);
+        String sortedAreaInSqKm = new Gson().toJson(censusCSVList);
+        return sortedAreaInSqKm;
+    }
+
     private <E> void sortAscending( Comparator<E>censusComparator, List<E> list ) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = 0; j < list.size() - 1; j++) {
