@@ -3,6 +3,7 @@ package censusanalyser;
 import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.models.IndiaStateCode;
 import censusanalyser.models.StateCensusCSV;
+import censusanalyser.models.USCensusCSV;
 import censusanalyser.service.CensusAnalyser;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -19,6 +20,7 @@ public class CensusAnalyserTest {
     private static final String INDIA_STATE_CODE_WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
     private static final String INDIA_STATECODE_WRONG_CSV_FILE_TYPE = "./src/test/resources/IndiaStateCode.txt";
     private static final String INDIA_STATE_CODE_WRONG_DELIMITER = "./src/test/resources/IndiaStateCodeSample.csv";
+    private static final String US_CENSUS_CSV_PATH = "./src/test/resources/USCensusData.csv";
 
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
@@ -193,6 +195,18 @@ public class CensusAnalyserTest {
             String sortedCensusData = censusAnalyser.getStateWiseSortedCensusDataOnArea();
             StateCensusCSV[] stateCensusCsv= new Gson().fromJson(sortedCensusData, StateCensusCSV[].class);
             Assert.assertEquals(342239, stateCensusCsv[0].areaInSqKm);
+        } catch (CensusAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void givenUsCensusData_WhenSortedOnPopulation_Highest_ShouldReturnSortedValue() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadUSCensusData(US_CENSUS_CSV_PATH);
+            String sortedUSCensusData = censusAnalyser.getUSStateWiseSortedCensusDataOnPopulation();
+            USCensusCSV[] usCensusCSV = new Gson().fromJson(sortedUSCensusData, USCensusCSV[].class);
+            Assert.assertEquals(37253956, usCensusCSV[0].population);
         } catch (CensusAnalyserException e) {
         }
     }
