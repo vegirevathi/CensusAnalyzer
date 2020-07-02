@@ -158,12 +158,32 @@ public class CensusAnalyser {
     }
 
     public String getUSStateWiseSortedCensusDataOnPopulation() throws CensusAnalyserException {
-        if (censusList == null || censusList.size() == 0){
+        if (usCensusList == null || usCensusList.size() == 0){
             throw new CensusAnalyserException("No census data found", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<StateCensusDAO> censusCSVComparator = Comparator.comparing(census -> census.population);
-        this.sortDescending(censusCSVComparator, censusList);
-        String sortedPopulation = new Gson().toJson(censusList);
+        Comparator<USCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.population);
+        this.sortDescending(censusCSVComparator, usCensusList);
+        String sortedPopulation = new Gson().toJson(usCensusList);
+        return sortedPopulation;
+    }
+
+    public String getUSStateWiseSortedCensusDataOnPopulationDensity() throws CensusAnalyserException {
+        if (usCensusList == null || usCensusList.size() == 0){
+            throw new CensusAnalyserException("No census data found", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<USCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.populationDensity);
+        this.sortDescending(censusCSVComparator, usCensusList);
+        String sortedPopulation = new Gson().toJson(usCensusList);
+        return sortedPopulation;
+    }
+
+    public String getUSStateWiseSortedCensusDataOnTotalArea() throws CensusAnalyserException {
+        if (usCensusList == null || usCensusList.size() == 0){
+            throw new CensusAnalyserException("No census data found", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<USCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.populationDensity);
+        this.sortDescending(censusCSVComparator, usCensusList);
+        String sortedPopulation = new Gson().toJson(usCensusList);
         return sortedPopulation;
     }
 }
