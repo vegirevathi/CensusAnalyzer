@@ -1,9 +1,9 @@
 package censusanalyser.models;
 
 public class StateCensusDAO {
-    public String population;
-    public String densityPerSqKm;
-    public String areaInSqKm;
+    public int population;
+    public int densityPerSqKm;
+    public int areaInSqKm;
     public String state;
 
     public StateCensusDAO(StateCensusCSV stateCensusCSV) {
