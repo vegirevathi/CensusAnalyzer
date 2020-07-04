@@ -4,6 +4,7 @@ import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.models.IndiaStateCode;
 import censusanalyser.models.StateCensusCSV;
 import censusanalyser.models.USCensusCSV;
+import censusanalyser.models.censusDAO;
 import censusanalyser.service.CensusAnalyser;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -195,7 +196,7 @@ public class CensusAnalyserTest {
             censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.getStateWiseSortedCensusDataOnArea();
             StateCensusCSV[] stateCensusCsv= new Gson().fromJson(sortedCensusData, StateCensusCSV[].class);
-            Assert.assertEquals(342239, stateCensusCsv[0].areaInSqKm);
+            Assert.assertEquals( 342239, stateCensusCsv[0].areaInSqKm);
         } catch (CensusAnalyserException e) {
         }
     }
@@ -243,6 +244,20 @@ public class CensusAnalyserTest {
             USCensusCSV[] usCensusCSV = new Gson().fromJson(sortedUSCensusData, USCensusCSV[].class);
             Assert.assertEquals((Double) 1723338.01, usCensusCSV[0].totalArea);
         } catch (CensusAnalyserException e) {
+        }
+    }
+
+    @Test
+    public void mostPopulousStateAmongIndiaAndUS() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadUSCensusData(US_CENSUS_CSV_PATH);
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.mostPopulationDensityStateInIndiaAndUS();
+            censusDAO[] censusDAO = new Gson().fromJson(sortedCensusData, censusDAO[].class);
+            Assert.assertEquals("District of Columbia", censusDAO[0].state);
+        } catch (CensusAnalyserException e) {
+            e.printStackTrace();
         }
     }
 
