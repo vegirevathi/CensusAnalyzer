@@ -1,7 +1,6 @@
 package censusanalyser;
 
 import censusanalyser.exception.CensusAnalyserException;
-import censusanalyser.models.IndiaStateCode;
 import censusanalyser.models.StateCensusCSV;
 import censusanalyser.models.USCensusCSV;
 import censusanalyser.models.censusDAO;
@@ -158,10 +157,11 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             censusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_CSV_FILE_PATH);
             String sortedCodeData = censusAnalyser.getStateWiseSortedStateCodeData();
-            IndiaStateCode[] indiaStateCode = new Gson().fromJson(sortedCodeData, IndiaStateCode[].class);
-            Assert.assertEquals("AD", indiaStateCode[0].StateCode);
-            Assert.assertEquals("WB", indiaStateCode[36].StateCode);
+            censusDAO[] indiaStateCode = new Gson().fromJson(sortedCodeData, censusDAO[].class);
+            Assert.assertEquals("AD", indiaStateCode[0].stateCode);
+            Assert.assertEquals("WB", indiaStateCode[36].stateCode);
         } catch (CensusAnalyserException e) {
+            e.printStackTrace();
         }
     }
 
@@ -173,6 +173,7 @@ public class CensusAnalyserTest {
             String sortedCensusData = censusAnalyser.getStateWiseSortedCensusDataOnPopulation();
             StateCensusCSV[] stateCensusCsv = new Gson().fromJson(sortedCensusData, StateCensusCSV[].class);
             Assert.assertEquals(199812341, stateCensusCsv[0].population);
+            Assert.assertEquals(607688, stateCensusCsv[28].population);
         } catch (CensusAnalyserException e) {
         }
     }
@@ -183,8 +184,9 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.getStateWiseSortedCensusDataOnPopulationDensity();
-            StateCensusCSV[] stateCensusCsv= new Gson().fromJson(sortedCensusData, StateCensusCSV[].class);
-            Assert.assertEquals(1102, stateCensusCsv[0].densityPerSqKm);
+            censusDAO[] censusDAO = new Gson().fromJson(sortedCensusData, censusDAO[].class);
+            Assert.assertEquals(1102.0, censusDAO[0].populationDensity, 0.000);
+            Assert.assertEquals(50.0, censusDAO[28].populationDensity, 0.000);
         } catch (CensusAnalyserException e) {
         }
     }
@@ -195,8 +197,9 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.getStateWiseSortedCensusDataOnArea();
-            StateCensusCSV[] stateCensusCsv= new Gson().fromJson(sortedCensusData, StateCensusCSV[].class);
-            Assert.assertEquals( 342239, stateCensusCsv[0].areaInSqKm);
+            censusDAO[] censusDAO= new Gson().fromJson(sortedCensusData, censusDAO[].class);
+            Assert.assertEquals( 342239.0, censusDAO[0].totalArea, 0.0);
+            Assert.assertEquals( 3702.0, censusDAO[28].totalArea, 0.0);
         } catch (CensusAnalyserException e) {
         }
     }
