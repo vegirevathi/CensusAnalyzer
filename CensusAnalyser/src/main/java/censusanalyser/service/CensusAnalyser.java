@@ -23,15 +23,9 @@ import java.util.stream.StreamSupport;
 public class CensusAnalyser {
 
     List<censusDAO> censusList;
-    List<IndiaStateCode> stateCSVList;
-    List<USCensusCSV> usCensusList;
-    List<StateCensusCSV> indiaCensusList;
 
     public CensusAnalyser() {
         this.censusList = new ArrayList<>();
-        this.stateCSVList = new ArrayList<>();
-        this.usCensusList = new ArrayList<>();
-        this.indiaCensusList = new ArrayList<>();
     }
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
@@ -143,32 +137,32 @@ public class CensusAnalyser {
     }
 
     public String getUSStateWiseSortedCensusDataOnPopulation() throws CensusAnalyserException {
-        if (usCensusList == null || usCensusList.size() == 0) {
+        if (censusList == null || censusList.size() == 0) {
             throw new CensusAnalyserException("No census data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<USCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.population);
-        this.sortDescending(usCensusList, censusCSVComparator);
-        String sortedPopulation = new Gson().toJson(usCensusList);
+        Comparator<censusDAO> censusCSVComparator = Comparator.comparing(census -> census.population);
+        this.sortDescending(censusList, censusCSVComparator);
+        String sortedPopulation = new Gson().toJson(censusList);
         return sortedPopulation;
     }
 
     public String getUSStateWiseSortedCensusDataOnPopulationDensity() throws CensusAnalyserException {
-        if (usCensusList == null || usCensusList.size() == 0){
+        if (censusList == null || censusList.size() == 0){
             throw new CensusAnalyserException("No census data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<USCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.populationDensity);
-        this.sortDescending(usCensusList, censusCSVComparator);
-        String sortedPopulationDensity = new Gson().toJson(usCensusList);
+        Comparator<censusDAO> censusCSVComparator = Comparator.comparing(census -> census.populationDensity);
+        this.sortDescending(censusList, censusCSVComparator);
+        String sortedPopulationDensity = new Gson().toJson(censusList);
         return sortedPopulationDensity;
     }
 
     public String getUSStateWiseSortedCensusDataOnTotalArea() throws CensusAnalyserException {
-        if (usCensusList == null || usCensusList.size() == 0){
+        if (censusList == null || censusList.size() == 0){
             throw new CensusAnalyserException("No census data found", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<USCensusCSV> censusCSVComparator = Comparator.comparing(census -> census.totalArea);
-        this.sortDescending(usCensusList, censusCSVComparator);
-        String sortedTotalArea = new Gson().toJson(usCensusList);
+        Comparator<censusDAO> censusCSVComparator = Comparator.comparing(census -> census.totalArea);
+        this.sortDescending(censusList, censusCSVComparator);
+        String sortedTotalArea = new Gson().toJson(censusList);
         return sortedTotalArea;
     }
 
@@ -203,7 +197,6 @@ public class CensusAnalyser {
         this.sortDescending(censusList, censusCSVComparator);
         String sortedPopulationDensityUS = new Gson().toJson(censusList);
         return sortedPopulationDensityUS;
-
     }
 
 }
