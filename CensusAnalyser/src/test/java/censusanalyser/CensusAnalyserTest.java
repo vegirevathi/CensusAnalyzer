@@ -18,7 +18,7 @@ public class CensusAnalyserTest {
     private static final String WRONG_DELIMITER = "./src/test/resources/IndiaStateCensusDataSample.csv";
     private static final String INDIA_STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
     private static final String INDIA_STATE_CODE_WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
-    private static final String INDIA_STATECODE_WRONG_CSV_FILE_TYPE = "./src/test/resources/IndiaStateCode.txt";
+    private static final String INDIA_STATE_CODE_WRONG_CSV_FILE_TYPE = "./src/test/resources/IndiaStateCode.txt";
     private static final String INDIA_STATE_CODE_WRONG_DELIMITER = "./src/test/resources/IndiaStateCodeSample.csv";
     private static final String US_CENSUS_CSV_PATH = "./src/test/resources/USCensusData.csv";
 
@@ -108,7 +108,7 @@ public class CensusAnalyserTest {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
-            censusAnalyser.loadIndiaStateCode(INDIA_STATECODE_WRONG_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaStateCode(INDIA_STATE_CODE_WRONG_CSV_FILE_TYPE);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
@@ -254,8 +254,8 @@ public class CensusAnalyserTest {
     public void mostPopulousStateAmongIndiaAndUS() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();
-            censusAnalyser.loadUSCensusData(US_CENSUS_CSV_PATH);
             censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            censusAnalyser.loadUSCensusData(US_CENSUS_CSV_PATH);
             String sortedCensusData = censusAnalyser.mostPopulationDensityStateInIndiaAndUS();
             censusDAO[] censusDAO = new Gson().fromJson(sortedCensusData, censusDAO[].class);
             Assert.assertEquals("District of Columbia", censusDAO[0].state);

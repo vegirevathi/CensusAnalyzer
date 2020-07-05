@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -20,6 +21,10 @@ public class CensusLoader {
 
     List<censusDAO> censusList;
 
+    public CensusLoader() {
+        this.censusList = new ArrayList<>();
+    }
+
     public<E> List<censusDAO> loadCensusData(String csvFilePath, Class<E> csvClass) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
@@ -27,10 +32,10 @@ public class CensusLoader {
             Iterable<E> censusCSVIterable = () -> csvFileIterator;
             if (csvClass.getName().equals("censusanalyser.models.StateCensusCSV")) {
                 StreamSupport.stream(censusCSVIterable.spliterator(), false)
-                        .forEach( census -> censusList.add(new censusDAO((StateCensusCSV) census)));
-            }else if (csvClass.getName().equals("censusanalyser.models.USCensusCSV")){
+                             .forEach( census -> censusList.add(new censusDAO((StateCensusCSV) census)));
+            }else if (csvClass.getName().equals("censusanalyser.models.USCensusCSV")) {
                 StreamSupport.stream(censusCSVIterable.spliterator(), false)
-                        .forEach( census -> censusList.add(new censusDAO((USCensusCSV) census)));
+                             .forEach( census -> censusList.add(new censusDAO((USCensusCSV) census)));
             }
             return censusList;
         } catch (IOException e) {

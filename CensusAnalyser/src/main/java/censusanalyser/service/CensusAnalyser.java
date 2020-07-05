@@ -163,7 +163,7 @@ public class CensusAnalyser {
         }
     }
 
-    public String mostPopulationDensityStateInIndiaAndUS(){
+    public String mostPopulationDensityStateInIndiaAndUS() {
         Comparator<censusDAO> censusCSVComparator = Comparator.comparing(census -> census.populationDensity);
         this.sortDescending(censusList, censusCSVComparator);
         String sortedPopulationDensityUS = new Gson().toJson(censusList);
