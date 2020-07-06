@@ -1,7 +1,6 @@
 package censusanalyser.service;
 
 import censusanalyser.exception.CensusAnalyserException;
-import censusanalyser.models.IndiaStateCode;
 import censusanalyser.models.StateCensusCSV;
 import censusanalyser.models.USCensusCSV;
 import censusanalyser.models.censusDAO;
@@ -19,18 +18,13 @@ public class CensusAnalyser {
         this.censusList = new ArrayList<>();
     }
 
-    public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
-        censusList = new CensusLoader().loadCensusData(csvFilePath, StateCensusCSV.class);
+    public int loadIndiaCensusData(String... csvFilePath) throws CensusAnalyserException {
+        censusList = new CensusLoader().loadCensusData(StateCensusCSV.class, csvFilePath);
         return censusList.size();
     }
 
-    public int loadUSCensusData(String csvFilePath) throws CensusAnalyserException {
-        censusList = new CensusLoader().loadCensusData(csvFilePath, USCensusCSV.class);
-        return censusList.size();
-    }
-
-    public int loadIndiaStateCode(String csvFilePath) throws CensusAnalyserException {
-        censusList = new CensusLoader().loadCensusData(csvFilePath, IndiaStateCode.class);
+    public int loadUSCensusData(String... csvFilePath) throws CensusAnalyserException {
+        censusList = new CensusLoader().loadCensusData(USCensusCSV.class, csvFilePath);
         return censusList.size();
     }
 
