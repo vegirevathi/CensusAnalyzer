@@ -31,16 +31,21 @@ public class CensusLoader {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<E> csvFileIterator = csvBuilder.getCSVFileIterator(reader, csvClass);
             Iterable<E> censusCSVIterable = () -> csvFileIterator;
-            if (csvClass.getName().equals("censusanalyser.models.StateCensusCSV")) {
-                StreamSupport.stream(censusCSVIterable.spliterator(), false)
-                             .forEach( census -> censusList.add(new censusDAO((StateCensusCSV) census)));
-            }else if (csvClass.getName().equals("censusanalyser.models.USCensusCSV")) {
-                StreamSupport.stream(censusCSVIterable.spliterator(), false)
-                             .forEach( census -> censusList.add(new censusDAO((USCensusCSV) census)));
-            }else if (csvClass.getName().equals("censusanalyser.models.IndiaStateCode")) {
-                StreamSupport.stream(censusCSVIterable.spliterator(), false)
-                        .forEach(census -> censusList.add(new censusDAO((IndiaStateCode) census)));
-            }return censusList;
+            switch (csvClass.getName()) {
+                case "censusanalyser.models.StateCensusCSV":
+                    StreamSupport.stream(censusCSVIterable.spliterator(), false)
+                            .forEach(census -> censusList.add(new censusDAO((StateCensusCSV) census)));
+                    break;
+                case "censusanalyser.models.USCensusCSV":
+                    StreamSupport.stream(censusCSVIterable.spliterator(), false)
+                            .forEach(census -> censusList.add(new censusDAO((USCensusCSV) census)));
+                    break;
+                case "censusanalyser.models.IndiaStateCode":
+                    StreamSupport.stream(censusCSVIterable.spliterator(), false)
+                            .forEach(census -> censusList.add(new censusDAO((IndiaStateCode) census)));
+                    break;
+            }
+            return censusList;
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
