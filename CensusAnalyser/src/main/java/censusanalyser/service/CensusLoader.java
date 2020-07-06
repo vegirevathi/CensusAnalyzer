@@ -4,6 +4,7 @@ import CSVBuilder.CSVBuilderException;
 import CSVBuilder.CSVBuilderFactory;
 import CSVBuilder.ICSVBuilder;
 import censusanalyser.exception.CensusAnalyserException;
+import censusanalyser.models.IndiaStateCode;
 import censusanalyser.models.StateCensusCSV;
 import censusanalyser.models.USCensusCSV;
 import censusanalyser.models.censusDAO;
@@ -36,8 +37,10 @@ public class CensusLoader {
             }else if (csvClass.getName().equals("censusanalyser.models.USCensusCSV")) {
                 StreamSupport.stream(censusCSVIterable.spliterator(), false)
                              .forEach( census -> censusList.add(new censusDAO((USCensusCSV) census)));
-            }
-            return censusList;
+            }else if (csvClass.getName().equals("censusanalyser.models.IndiaStateCode")) {
+                StreamSupport.stream(censusCSVIterable.spliterator(), false)
+                        .forEach(census -> censusList.add(new censusDAO((IndiaStateCode) census)));
+            }return censusList;
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
