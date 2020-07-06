@@ -20,13 +20,22 @@ import java.util.stream.StreamSupport;
 
 public class CensusLoader {
 
-    List<censusDAO> censusList;
+    /*List<censusDAO> censusList;
 
     public CensusLoader() {
         this.censusList = new ArrayList<>();
+    }*/
+
+    public List<censusDAO> loadCensusData(CensusAnalyser.Country country, String... csvFilePath) throws CensusAnalyserException {
+        if (country.equals(CensusAnalyser.Country.INDIA))
+            return this.loadCensusData(StateCensusCSV.class, csvFilePath);
+        else if (country.equals(CensusAnalyser.Country.US))
+            return  this.loadCensusData(USCensusCSV.class, csvFilePath);
+        throw new CensusAnalyserException("Country Not Present", CensusAnalyserException.ExceptionType.NO_SUCH_COUNTRY);
     }
 
-    public<E> List<censusDAO> loadCensusData(Class<E> csvClass, String... csvFilePath) throws CensusAnalyserException {
+    private <E> List<censusDAO> loadCensusData(Class<E> csvClass, String... csvFilePath) throws CensusAnalyserException {
+        List<censusDAO> censusList = new ArrayList<>();
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<E> csvFileIterator = csvBuilder.getCSVFileIterator(reader, csvClass);
@@ -52,7 +61,7 @@ public class CensusLoader {
         }
     }
 
-    public int loadIndiaStateCode(List<censusDAO> censusList, String csvFilePath) throws CensusAnalyserException {
+    private int loadIndiaStateCode(List<censusDAO> censusList, String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaStateCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
