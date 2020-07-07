@@ -6,27 +6,23 @@ import CSVBuilder.ICSVBuilder;
 import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.models.IndiaStateCode;
 import censusanalyser.models.StateCensusCSV;
-import censusanalyser.models.USCensusCSV;
 import censusanalyser.models.censusDAO;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-public class IndiaAdapter {
-
+public class IndiaCensusAdapter extends CensusAdapter {
+    @Override
     public List<censusDAO> loadCensusData(String... csvFilePath) throws CensusAnalyserException {
-        List<censusDAO> censusList = super.loadCensusData(StateCensusCSV.class,csvFilePath[0]);
+        List<censusDAO> censusList = super.loadCensusData(StateCensusCSV.class, csvFilePath[0]);
         this.loadIndiaStateCode(censusList, csvFilePath[1]);
         return censusList;
     }
-
-
 
     private int loadIndiaStateCode(List<censusDAO> censusList, String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
