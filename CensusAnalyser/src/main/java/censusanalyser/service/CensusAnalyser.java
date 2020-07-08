@@ -1,5 +1,6 @@
 package censusanalyser.service;
 
+import censusanalyser.adapters.CensusAdapterFactory;
 import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.models.censusDAO;
 import com.google.gson.Gson;
@@ -16,10 +17,6 @@ public class CensusAnalyser {
 
     List<censusDAO> censusList = new ArrayList<>();
     public enum Country { INDIA, US }
-
-    public CensusAnalyser() {
-        this.censusList = new ArrayList<>();
-    }
 
     public CensusAnalyser(Country country) {
         this.country = country;

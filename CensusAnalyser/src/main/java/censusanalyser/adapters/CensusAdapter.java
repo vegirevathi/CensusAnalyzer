@@ -1,4 +1,4 @@
-package censusanalyser.service;
+package censusanalyser.adapters;
 
 import CSVBuilder.CSVBuilderException;
 import CSVBuilder.CSVBuilderFactory;

@@ -1,4 +1,4 @@
-package censusanalyser.service;
+package censusanalyser.adapters;
 
 import censusanalyser.exception.CensusAnalyserException;
 import censusanalyser.models.USCensusCSV;
